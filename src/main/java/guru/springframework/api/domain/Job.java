@@ -5,19 +5,28 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Avatar implements Serializable
+public class Job implements Serializable
 {
 
-    private Card card;
+    private String title;
+    private String company;
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
-    private final static long serialVersionUID = 6577338081290507077L;
+    private final static long serialVersionUID = -4985150429002262656L;
 
-    public Card getCard() {
-        return card;
+    public String getTitle() {
+        return title;
     }
 
-    public void setCard(Card card) {
-        this.card = card;
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getCompany() {
+        return company;
+    }
+
+    public void setCompany(String company) {
+        this.company = company;
     }
 
     public Map<String, Object> getAdditionalProperties() {

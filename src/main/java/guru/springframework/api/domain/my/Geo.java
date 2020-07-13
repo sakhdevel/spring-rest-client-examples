@@ -1,23 +1,30 @@
 
-package guru.springframework.api.domain;
+package guru.springframework.api.domain.my;
 
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Avatar implements Serializable
-{
+public class Geo implements Serializable {
 
-    private Card card;
+    private String lat;
+    private String lng;
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
-    private final static long serialVersionUID = 6577338081290507077L;
 
-    public Card getCard() {
-        return card;
+    public String getLat() {
+        return lat;
     }
 
-    public void setCard(Card card) {
-        this.card = card;
+    public void setLat(String lat) {
+        this.lat = lat;
+    }
+
+    public String getLng() {
+        return lng;
+    }
+
+    public void setLng(String lng) {
+        this.lng = lng;
     }
 
     public Map<String, Object> getAdditionalProperties() {
