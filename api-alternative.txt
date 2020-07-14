@@ -1,2 +1,5 @@
 https://jsonplaceholder.typicode.com/users
 https://jsonplaceholder.typicode.com/users/1
+
+Try:
+https://api.predic8.de/shop/docs
