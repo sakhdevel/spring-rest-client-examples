@@ -2,9 +2,11 @@ package guru.springframework.springrestclientexamples.services;
 
 import guru.springframework.api.domain.my.User;
 import guru.springframework.api.domain.my.UserList;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,8 +20,11 @@ public class MyApiServiceImpl implements  MyApiService {
 
     private RestTemplate restTemplate;
 
-    public MyApiServiceImpl(RestTemplate restTemplate) {
+    private final String api_url;
+
+    public MyApiServiceImpl(RestTemplate restTemplate, @Value("${api.url}") String api_url) {
         this.restTemplate = restTemplate;
+        this.api_url = api_url;
     }
 
     @Override
@@ -37,10 +42,12 @@ public class MyApiServiceImpl implements  MyApiService {
 
     @Override
     public List<User> getUsers() {
-        ResponseEntity<User[]> response =
-            restTemplate.getForEntity(
-                "https://jsonplaceholder.typicode.com/users",
-                User[].class);
+        UriComponentsBuilder uriComponentsBuilder
+            = UriComponentsBuilder.fromUriString(api_url)
+//            .query("limit", limit)
+            ;
+
+        ResponseEntity<User[]> response = restTemplate.getForEntity(uriComponentsBuilder.toUriString(), User[].class);
         User[] users = response.getBody();
 
         return new ArrayList<User>(Arrays.asList(users));
