@@ -3,10 +3,15 @@ package guru.springframework.springrestclientexamples.services;
 import guru.springframework.api.domain.my.User;
 import guru.springframework.api.domain.my.UserList;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.ClientResponse;
+import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.UriComponentsBuilder;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -34,12 +39,6 @@ public class MyApiServiceImpl implements  MyApiService {
         return user;
     }
 
-//    @Override
-//    public List<User> getUsers() {
-//        UserList userList = restTemplate.getForObject("https://jsonplaceholder.typicode.com/users", UserList.class);
-//        return userList.getUsers();
-//    }
-
     @Override
     public List<User> getUsers() {
         UriComponentsBuilder uriComponentsBuilder
@@ -51,5 +50,22 @@ public class MyApiServiceImpl implements  MyApiService {
         User[] users = response.getBody();
 
         return new ArrayList<User>(Arrays.asList(users));
+    }
+
+    //REACTIVE
+
+    @Override
+    public Flux<User> getUsersFlex() {
+
+        Mono<ClientResponse> exchange = WebClient
+            .create(api_url)
+            .get()
+            .uri(uriBuilder -> uriBuilder.build())
+            .accept(MediaType.APPLICATION_JSON)
+            .exchange();
+
+        return exchange
+            .flatMap(resp -> resp.bodyToMono(UserList.class))
+            .flatMapIterable(UserList::getUsers);
     }
 }

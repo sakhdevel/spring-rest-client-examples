@@ -7,6 +7,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import reactor.core.publisher.Flux;
 
 import java.util.List;
 
@@ -35,5 +36,14 @@ public class MyApiServiceImplTest {
         List<User> users = myApiService.getUsers();
 
         assertEquals(10, users.size());
+    }
+
+    @Test
+    public void testGetUsersFlex() {
+        Flux<User> usersFlex = myApiService.getUsersFlex();
+
+
+        User user = usersFlex.blockFirst();
+        assertEquals(10, user);
     }
 }
